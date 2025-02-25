@@ -66,7 +66,7 @@ func (t *Trie) collectAllWords() []string {
 	return words
 }
 
-func (t *Trie) Search(prefix string) []string {
+func (t *Trie) search(prefix string) []string {
 	words := []string{}
 
 	for _, c := range strings.ToUpper(prefix) {
@@ -83,7 +83,7 @@ func (t *Trie) Search(prefix string) []string {
 	return words
 }
 
-func (t *Trie) Print() {
+func (t *Trie) Print(searchedWord string) {
 	myTable := table.New(os.Stdout)
 	myTable.SetHeaders("Registered Words")
 	myTable.AddHeaders("ID", "Word", "ID", "Word")
@@ -92,7 +92,13 @@ func (t *Trie) Print() {
 
 	myTable.SetAlignment(table.AlignLeft)
 
-	words := t.collectAllWords()
+	var words []string
+
+	if len(searchedWord) > 0 {
+		words = t.search(searchedWord)
+	} else {
+		words = t.collectAllWords()
+	}
 
 	for i := 0; i < len(words); i += 2 {
 		if i+1 < len(words) {
