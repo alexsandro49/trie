@@ -1,6 +1,12 @@
 package main
 
-import "strings"
+import (
+	"os"
+	"strconv"
+	"strings"
+
+	"github.com/aquasecurity/table"
+)
 
 type Trie struct {
 	Root *Node
@@ -58,4 +64,29 @@ func (t *Trie) collectAllWordsHelper(node *Node, words *[]string, prefix strings
 
 		t.collectAllWordsHelper(v, words, newPrefix)
 	}
+}
+
+func (t *Trie) Print() {
+	myTable := table.New(os.Stdout)
+	myTable.SetHeaders("Registered Words")
+	myTable.AddHeaders("ID", "Word", "ID", "Word")
+	myTable.SetHeaderAlignment(table.AlignLeft, table.AlignLeft)
+	myTable.SetHeaderColSpans(0, 4)
+
+	myTable.SetAlignment(table.AlignLeft)
+
+	words := t.collectAllWords()
+
+	for i := 0; i < len(words); i += 2 {
+		if i+1 < len(words) {
+			myTable.AddRow(
+				strconv.Itoa(i), words[i],
+				strconv.Itoa(i+1), words[i+1],
+			)
+		} else {
+			myTable.AddRow(strconv.Itoa(i), words[i], "", "")
+		}
+	}
+
+	myTable.Render()
 }
