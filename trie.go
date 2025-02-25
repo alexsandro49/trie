@@ -24,7 +24,7 @@ func NewTrie() Trie {
 func (t *Trie) Add(word string) {
 	current := t.Root
 
-	for _, v := range word {
+	for _, v := range strings.ToUpper(word) {
 		_, ok := current.Children[v]
 
 		if ok {
@@ -43,15 +43,7 @@ func (t *Trie) Add(word string) {
 	current.IsLeaf = true
 }
 
-func (t *Trie) collectAllWords() []string {
-	words := []string{}
-
-	t.collectAllWordsHelper(t.Root, &words, strings.Builder{})
-
-	return words
-}
-
-func (t *Trie) collectAllWordsHelper(node *Node, words *[]string, prefix strings.Builder) {
+func (t *Trie) collectWordsHelper(node *Node, words *[]string, prefix strings.Builder) {
 	if node.IsLeaf {
 		*words = append(*words, prefix.String())
 	}
@@ -62,8 +54,33 @@ func (t *Trie) collectAllWordsHelper(node *Node, words *[]string, prefix strings
 		newPrefix.WriteString(prefix.String())
 		newPrefix.WriteString(string(k))
 
-		t.collectAllWordsHelper(v, words, newPrefix)
+		t.collectWordsHelper(v, words, newPrefix)
 	}
+}
+
+func (t *Trie) collectAllWords() []string {
+	words := []string{}
+
+	t.collectWordsHelper(t.Root, &words, strings.Builder{})
+
+	return words
+}
+
+func (t *Trie) Search(prefix string) []string {
+	words := []string{}
+
+	for _, c := range strings.ToUpper(prefix) {
+
+		node, ok := t.Root.Children[c]
+		if ok {
+			newPrefix := strings.Builder{}
+			newPrefix.WriteRune(c)
+
+			t.collectWordsHelper(node, &words, newPrefix)
+		}
+	}
+
+	return words
 }
 
 func (t *Trie) Print() {
