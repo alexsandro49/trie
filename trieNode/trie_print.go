@@ -1,8 +1,8 @@
 package trienode
 
 import (
-	"fmt"
 	"os"
+	"sort"
 	"strconv"
 
 	"github.com/aquasecurity/table"
@@ -19,13 +19,13 @@ func (t *Trie) Print(searchedWord string) {
 
 	var words []string
 
-	fmt.Println(len(searchedWord))
 	if len(searchedWord) > 0 {
 		words = t.search(searchedWord)
 	} else {
 		words = t.collectAllWords()
 	}
 
+	sort.Strings(words)
 	for i := 0; i < len(words); i += 2 {
 		if i+1 < len(words) {
 			myTable.AddRow(

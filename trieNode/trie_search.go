@@ -25,23 +25,40 @@ func (t *Trie) collectAllWords() []string {
 	return words
 }
 
+func (t *Trie) searchHelper(currentNode *Node, words *[]string, prefix strings.Builder) {
+	if currentNode.IsLeaf {
+		*words = append(*words, strings.ToUpper(prefix.String()))
+	}
+
+	for c, child_node := range currentNode.Children {
+		newPrefix := strings.Builder{}
+		newPrefix.WriteString(prefix.String())
+		newPrefix.WriteRune(c)
+
+		t.searchHelper(child_node, words, newPrefix)
+	}
+
+}
+
 func (t *Trie) search(prefix string) []string {
 	words := []string{}
+	currentNode := t.Root
 
 	for _, c := range strings.ToUpper(prefix) {
 
-		node, ok := t.Root.Children[c]
-		if ok {
-			newPrefix := strings.Builder{}
-			newPrefix.WriteRune(c)
-
-			t.collectWordsHelper(node, &words, newPrefix)
+		_, ok := currentNode.Children[c]
+		if !ok {
+			words = append(words, "Not Found")
+			return words
 		}
+
+		currentNode = currentNode.Children[c]
 	}
 
-	if len(words) == 0 {
-		words = append(words, "Not Found")
-	}
+	newPrefix := strings.Builder{}
+	newPrefix.WriteString(prefix)
+
+	t.searchHelper(currentNode, &words, newPrefix)
 
 	return words
 }
