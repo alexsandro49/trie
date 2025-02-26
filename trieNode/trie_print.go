@@ -1,6 +1,7 @@
 package trienode
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
@@ -18,6 +19,7 @@ func (t *Trie) Print(searchedWord string) {
 
 	var words []string
 
+	fmt.Println(len(searchedWord))
 	if len(searchedWord) > 0 {
 		words = t.search(searchedWord)
 	} else {

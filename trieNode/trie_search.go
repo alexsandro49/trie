@@ -39,5 +39,9 @@ func (t *Trie) search(prefix string) []string {
 		}
 	}
 
+	if len(words) == 0 {
+		words = append(words, "Not Found")
+	}
+
 	return words
 }
