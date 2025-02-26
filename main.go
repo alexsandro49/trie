@@ -1,7 +1,9 @@
 package main
 
+import trienode "github.com/alexsandro49/trie/trieNode"
+
 func main() {
-	trie := NewTrie()
+	trie := trienode.NewTrie()
 
 	trie.Add("Batata")
 	trie.Add("Barco")
@@ -12,5 +14,5 @@ func main() {
 	trie.Add("Fantoche")
 	trie.Add("Fantastico")
 
-	trie.Print()
+	trie.Print("")
 }
