@@ -1,18 +1,18 @@
 package main
 
-import trienode "github.com/alexsandro49/trie/trieNode"
+import (
+	trienode "github.com/alexsandro49/trie/trieNode"
+)
 
 func main() {
-	trie := trienode.NewTrie()
+	var trie trienode.Trie
 
-	trie.Add("Batata")
-	trie.Add("Barco")
-	trie.Add("Goiaba")
-	trie.Add("Gengibre")
-	trie.Add("Motocicleta")
-	trie.Add("Fantasma")
-	trie.Add("Fantoche")
-	trie.Add("Fantastico")
+	storage := NewStorage[trienode.Trie]("trie-data.json")
+	if storage.Load(&trie) != nil {
+		trie = trienode.NewTrie()
+	}
 
 	trie.Print("")
+
+	storage.Save(&trie)
 }

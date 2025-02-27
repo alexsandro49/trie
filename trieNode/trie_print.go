@@ -25,6 +25,10 @@ func (t *Trie) Print(searchedWord string) {
 		words = t.collectAllWords()
 	}
 
+	if len(words) == 0 {
+		words = append(words, "Not Found")
+	}
+
 	sort.Strings(words)
 	for i := 0; i < len(words); i += 2 {
 		if i+1 < len(words) {

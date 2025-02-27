@@ -48,7 +48,6 @@ func (t *Trie) search(prefix string) []string {
 
 		_, ok := currentNode.Children[c]
 		if !ok {
-			words = append(words, "Not Found")
 			return words
 		}
 

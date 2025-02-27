@@ -1,7 +1,7 @@
 package trienode
 
 type Trie struct {
-	Root *Node
+	Root *Node `json:"root"`
 }
 
 func NewTrie() Trie {
