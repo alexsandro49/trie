@@ -2,7 +2,7 @@ package trienode
 
 import "strings"
 
-func (t *Trie) collectWordsHelper(node *Node, words *[]string, prefix strings.Builder) {
+func (t *Trie) allWordsHelper(node *Node, words *[]string, prefix strings.Builder) {
 	if node.IsLeaf {
 		*words = append(*words, prefix.String())
 	}
@@ -13,19 +13,19 @@ func (t *Trie) collectWordsHelper(node *Node, words *[]string, prefix strings.Bu
 		newPrefix.WriteString(prefix.String())
 		newPrefix.WriteString(string(k))
 
-		t.collectWordsHelper(v, words, newPrefix)
+		t.allWordsHelper(v, words, newPrefix)
 	}
 }
 
-func (t *Trie) collectAllWords() []string {
+func (t *Trie) allWords() []string {
 	words := []string{}
 
-	t.collectWordsHelper(t.Root, &words, strings.Builder{})
+	t.allWordsHelper(t.Root, &words, strings.Builder{})
 
 	return words
 }
 
-func (t *Trie) searchHelper(currentNode *Node, words *[]string, prefix strings.Builder) {
+func (t *Trie) searchWordsHelper(currentNode *Node, words *[]string, prefix strings.Builder) {
 	if currentNode.IsLeaf {
 		*words = append(*words, strings.ToUpper(prefix.String()))
 	}
@@ -35,12 +35,12 @@ func (t *Trie) searchHelper(currentNode *Node, words *[]string, prefix strings.B
 		newPrefix.WriteString(prefix.String())
 		newPrefix.WriteRune(c)
 
-		t.searchHelper(child_node, words, newPrefix)
+		t.searchWordsHelper(child_node, words, newPrefix)
 	}
 
 }
 
-func (t *Trie) search(prefix string) []string {
+func (t *Trie) searchWords(prefix string) []string {
 	words := []string{}
 	currentNode := t.Root
 
@@ -57,7 +57,7 @@ func (t *Trie) search(prefix string) []string {
 	newPrefix := strings.Builder{}
 	newPrefix.WriteString(prefix)
 
-	t.searchHelper(currentNode, &words, newPrefix)
+	t.searchWordsHelper(currentNode, &words, newPrefix)
 
 	return words
 }

@@ -12,7 +12,8 @@ func main() {
 		trie = trienode.NewTrie()
 	}
 
-	trie.Print("")
+	commandFlags := newCommandFlags()
+	commandFlags.Execute(&trie)
 
 	storage.Save(&trie)
 }

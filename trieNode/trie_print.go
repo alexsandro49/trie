@@ -20,9 +20,9 @@ func (t *Trie) Print(searchedWord string) {
 	var words []string
 
 	if len(searchedWord) > 0 {
-		words = t.search(searchedWord)
+		words = t.searchWords(searchedWord)
 	} else {
-		words = t.collectAllWords()
+		words = t.allWords()
 	}
 
 	if len(words) == 0 {
